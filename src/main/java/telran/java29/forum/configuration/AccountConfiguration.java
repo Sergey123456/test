@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import telran.java29.forum.exceptions.UserAuthenticationException;
+import telran.java29.forum.service.ForumService;
+import telran.java29.forum.service.ForumServiceImpl;
 
 @Configuration
 @ManagedResource
@@ -27,11 +29,6 @@ public class AccountConfiguration {
 	@ManagedAttribute
 	public void setExpPeriod(long expPeriod) {
 		this.expPeriod = expPeriod;
-	}
-	
-	@Bean
-	public PasswordEncoder getPasswordEncoder() {
-		return new BCryptPasswordEncoder();
 	}
 	
 	public AccountUserCredentials tokenDecode(String auth) {

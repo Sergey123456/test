@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,8 +34,9 @@ public class AccountManagmentController {
 	}
 
 	@PostMapping("/{id}")
-	public UserProfileDto userLogin(@PathVariable String id, Principal principal) {
-		return accountService.findUserById(id, principal.getName());
+	@PreAuthorize("#id == authentication.name")
+	public UserProfileDto userLogin(@PathVariable String id) {
+		return accountService.findUserById(id);
 	}
 
 	@PutMapping
@@ -42,8 +45,8 @@ public class AccountManagmentController {
 	}
 
 	@DeleteMapping
-	public UserProfileDto remove(Principal principal) {
-		return accountService.removeUser(principal.getName());
+	public UserProfileDto remove(Authentication authentication) {
+		return accountService.removeUser(authentication.getName());
 	}
 
 	@PutMapping("/{id}/{role}")
@@ -57,9 +60,9 @@ public class AccountManagmentController {
 	}
 	
 	@PutMapping("/password")
-	public void changePassword(Principal principal,
+	public void changePassword(Authentication authentication,
 			@RequestHeader("X-Password") String password) {
-		accountService.changePassword(principal.getName(), password);
+		accountService.changePassword(authentication.getName(), password);
 	}
 
 }

@@ -38,7 +38,7 @@ public class AccountServiceImpl implements AccountService {
 				.password(hashPassword)
 				.firstName(userRegDto.getFirstName())
 				.lastName(userRegDto.getLastName())
-				.role("User")
+				.role("ROLE_USER")
 				.expdate(LocalDateTime.now().plusDays(accountConfiguration.getExpPeriod()))
 				.build();
 		userRepository.save(userAccount);
@@ -46,11 +46,8 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public UserProfileDto findUserById(String id, String login) {
-		if (!id.equals(login)) {
-			throw new ForbiddenException();
-		}
-		UserAccount userAccount = userRepository.findById(login).get();
+	public UserProfileDto findUserById(String id) {
+		UserAccount userAccount = userRepository.findById(id).get();
 		return convertToUserProfileDto(userAccount);
 	}
 
@@ -79,7 +76,7 @@ public class AccountServiceImpl implements AccountService {
 	public Set<String> addRole(String id, String role) {
 		UserAccount userAccount = userRepository.findById(id)
 				.orElseThrow(() -> new UserConflictException());
-		userAccount.addRole(role);
+		userAccount.addRole("ROLE_"+role.toUpperCase());
 		userRepository.save(userAccount);
 		return userAccount.getRoles();
 	}
@@ -97,7 +94,7 @@ public class AccountServiceImpl implements AccountService {
 	public Set<String> deleteRole(String id, String role) {
 		UserAccount userAccount = userRepository.findById(id)
 				.orElseThrow(() -> new UserConflictException());
-		userAccount.removeRole(role);
+		userAccount.removeRole("ROLE_"+role.toUpperCase());
 		userRepository.save(userAccount);
 		return userAccount.getRoles();
 	}
