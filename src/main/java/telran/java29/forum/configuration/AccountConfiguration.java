@@ -3,16 +3,11 @@ package telran.java29.forum.configuration;
 import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import telran.java29.forum.exceptions.UserAuthenticationException;
-import telran.java29.forum.service.ForumService;
-import telran.java29.forum.service.ForumServiceImpl;
 
 @Configuration
 @ManagedResource

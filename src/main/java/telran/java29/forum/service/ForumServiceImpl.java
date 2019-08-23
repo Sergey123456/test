@@ -46,17 +46,10 @@ public class ForumServiceImpl implements ForumService {
 	}
 
 	@Override
-	public PostDto removePost(String id, String login) {
-		Post post = repository.findById(id).orElse(null);
-		if (post != null) {
-			UserAccount userAccount = userRepository.findById(login).get();
-			if (userAccount.getLogin().equals(post.getAuthor()) || userAccount.getRoles().contains("Moderator")) {
-				repository.delete(post);
-			}else {
-				throw new ForbiddenException();
-			}
-		}
-		return post == null ? null : convertToPostDto(post);
+	public PostDto removePost(String id) {
+		Post post = repository.findById(id).orElseThrow(ForbiddenException::new);
+		repository.delete(post);
+		return convertToPostDto(post);
 	}
 
 	@Override

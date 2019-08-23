@@ -1,5 +1,7 @@
 package telran.java29.forum.service.security;
 
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 				.orElseThrow(() -> new UsernameNotFoundException(username));
 		String password = userAccount.getPassword();
 		Set<String> setRoles = userAccount.getRoles();
+		if(userAccount.getExpdate().isBefore(LocalDateTime.now())) {
+			setRoles = new HashSet<>();
+		}
+		
 		return new User(username, password, 
 				AuthorityUtils.createAuthorityList(setRoles.toArray(new String[setRoles.size()])));
 	}

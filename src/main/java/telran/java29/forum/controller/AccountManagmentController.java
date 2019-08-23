@@ -1,6 +1,5 @@
 package telran.java29.forum.controller;
 
-import java.security.Principal;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +33,14 @@ public class AccountManagmentController {
 	}
 
 	@PostMapping("/{id}")
-	@PreAuthorize("#id == authentication.name")
+	@PreAuthorize("#id == authentication.name and hasAnyRole('ADMIN', 'MODERATOR', 'USER')")
 	public UserProfileDto userLogin(@PathVariable String id) {
 		return accountService.findUserById(id);
 	}
 
 	@PutMapping
-	public UserProfileDto edit(@RequestBody UserEditDto userEditDto, Principal principal) {
-		return accountService.editUser(userEditDto, principal.getName());
+	public UserProfileDto edit(@RequestBody UserEditDto userEditDto, Authentication authentication) {
+		return accountService.editUser(userEditDto, authentication.getName());
 	}
 
 	@DeleteMapping

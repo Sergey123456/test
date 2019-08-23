@@ -14,7 +14,7 @@ public interface ForumService {
 
 	PostDto getPost(String id);
 
-	PostDto removePost(String id, String login);
+	PostDto removePost(String id);
 
 	PostDto updatePost(PostUpdateDto postUpdateDto, String login);
 
