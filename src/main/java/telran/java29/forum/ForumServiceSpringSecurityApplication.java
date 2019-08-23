@@ -21,6 +21,7 @@ public class ForumServiceSpringSecurityApplication implements CommandLineRunner{
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ForumServiceSpringSecurityApplication.class, args);
+		System.out.println("Hello world");
 	}
 
 	@Override
